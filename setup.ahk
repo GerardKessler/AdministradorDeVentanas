@@ -20,6 +20,7 @@ iniWrite, ^!1, config.ini, Favorita1, hk
 iniWrite, ^!2, config.ini, Favorita2, hk
 iniWrite, ^!3, config.ini, Favorita3, hk
 iniWrite, ^!r, config.ini, ResetearFavoritos, hk
+iniWrite, ^f1, config.ini, SuspenderYReactivarElScript, hk
 fileRead()
 }
 
@@ -42,6 +43,8 @@ iniRead, ft3, config.ini, Favorita3, hk
 hotkey, %ft3%, Favorita3, on
 iniRead, ftr, config.ini, ResetearFavoritos, hk
 hotkey, %ftr%, ResetearFavoritos, on
+iniRead, suspender, config.ini, SuspenderYReactivarElScript, hk
+hotkey, %suspender%, SuspenderYReactivarElScript, on
 }
 
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
@@ -336,6 +339,11 @@ Speak(Str) {
 ResetearFavoritos:
 w1:="",w2:="",w3:=""
 speak("favoritos reseteados")
+return
+
+SuspenderYReactivarElScript:
+suspend
+speak((t:=!t)? "Script suspendido" : "Script reactivado")
 return
 
 #if winActive("Lista de comandos")
