@@ -1,13 +1,13 @@
-﻿IfNotExist, files\sounds.ini
+﻿IfNotExist, config.ini
 {
 msgBox, 4, Bienvenido al administrador de ventanas: , ¿Quieres que el script se ejecute cada vez que se inicie el sistema?
 ifMsgBox yes
-startUp()
+{
 iniWrite, 0, files\sounds.ini, DesactivarLosSonidos, value
-}
-
-IfNotExist, config.ini
 fileCreate()
+startUp()
+}
+}
 else
 fileRead()
 
@@ -58,7 +58,7 @@ mwt_MaxWindows = 50
 SetWinDelay 10
 SetKeyDelay 0
 
-#SingleInstance  ; Allow only one instance of this script to be running.
+#SingleInstance Force
 
 OnExit, mwt_RestoreAllThenExit
 w1:="",w2:="",w3:=""
@@ -298,7 +298,12 @@ gui, list:show,, Lista de comandos
 return
 
 startUp() {
-runWait cmd.exe /c mklink "%a_startMenuCommon%\programs\StartUp\AdministradorDeVentanas" "%a_workingDir%\setup.exe",, hide
+speak("copiando archivos")
+sleep 2000
+runWait cmd.exe /c mklink "%a_startMenuCommon%\programs\StartUp\setup.exe" "%a_workingDir%\setup.exe",, hide
+runWait cmd.exe /c mklink /d "%a_startMenuCommon%\programs\StartUp\files" "%a_workingDir%\files",, hide
+runWait cmd.exe /c mklink "%a_startMenuCommon%\programs\StartUp\config.ini" "%a_workingDir%\config.ini",, hide
+run "%a_startMenuCommon%\programs\StartUp\setup.exe"
 }
 
 config:
