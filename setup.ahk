@@ -1,49 +1,53 @@
-﻿IfNotExist, config.ini
+﻿IfNotExist, files\config.ini
 {
 msgBox, 4, Bienvenido al administrador de ventanas: , ¿Quieres que el script se ejecute cada vez que se inicie el sistema?
 ifMsgBox yes
 {
-iniWrite, 0, files\sounds.ini, DesactivarLosSonidos, value
+fileCreateShortcut, %a_workingDir%\setup.exe, %a_startMenuCommon%\Programs\StartUp\AdministradorDeVentanas.lnk, %a_workingDir%
 fileCreate()
-startUp()
+}
+ifMsgBox no
+{
+fileCreate()
 }
 }
 else
 fileRead()
 
 fileCreate() {
-iniWrite, !o, config.ini, OcultarVentana, hk
-iniWrite, !m, config.ini, MostrarVentana, hk
-iniWrite, !l, config.ini, ActivarMenú, hk
-iniWrite, !c, config.ini, CopiarRutaDelArchivoAlPortapapeles, hk
-iniWrite, ^!1, config.ini, Favorita1, hk
-iniWrite, ^!2, config.ini, Favorita2, hk
-iniWrite, ^!3, config.ini, Favorita3, hk
-iniWrite, ^!r, config.ini, ResetearFavoritos, hk
-iniWrite, ^f1, config.ini, SuspenderYReactivarElScript, hk
+iniWrite, !o, files\config.ini, OcultarVentana, hk
+iniWrite, !m, files\config.ini, MostrarVentana, hk
+iniWrite, !l, files\config.ini, ActivarMenú, hk
+iniWrite, !c, files\config.ini, CopiarRutaDelArchivoAlPortapapeles, hk
+iniWrite, ^!1, files\config.ini, Favorita1, hk
+iniWrite, ^!2, files\config.ini, Favorita2, hk
+iniWrite, ^!3, files\config.ini, Favorita3, hk
+iniWrite, ^!r, files\config.ini, ResetearFavoritos, hk
+iniWrite, ^f1, files\config.ini, SuspenderYReactivarElScript, hk
+iniWrite, 0, files\sounds.ini, DesactivarLosSonidos, value
 fileRead()
 }
 
 fileRead() {
 global sounds
-iniRead, hide, config.ini, OcultarVentana, hk
+iniRead, hide, files\config.ini, OcultarVentana, hk
 Hotkey, %hide%, OcultarVentana, on
-iniRead, show, config.ini, MostrarVentana, hk
+iniRead, show, files\config.ini, MostrarVentana, hk
 Hotkey, %show%, MostrarVentana, on
-iniRead, pc, config.ini, CopiarRutaDelArchivoAlPortapapeles, hk
+iniRead, pc, files\config.ini, CopiarRutaDelArchivoAlPortapapeles, hk
 hotkey, %pc%, CopiarRutaDelArchivoAlPortapapeles, on
-iniRead, mn, config.ini, ActivarMenú, hk
+iniRead, mn, files\config.ini, ActivarMenú, hk
 hotkey, %mn%, mwt_menuShow, on
 iniRead, sounds, files\sounds.ini, DesactivarLosSonidos, value
-iniRead, ft1, config.ini, Favorita1, hk
+iniRead, ft1, files\config.ini, Favorita1, hk
 hotkey, %ft1%, Favorita1, on
-iniRead, ft2, config.ini, Favorita2, hk
+iniRead, ft2, files\config.ini, Favorita2, hk
 hotkey, %ft2%, Favorita2, on
-iniRead, ft3, config.ini, Favorita3, hk
+iniRead, ft3, files\config.ini, Favorita3, hk
 hotkey, %ft3%, Favorita3, on
-iniRead, ftr, config.ini, ResetearFavoritos, hk
+iniRead, ftr, files\config.ini, ResetearFavoritos, hk
 hotkey, %ftr%, ResetearFavoritos, on
-iniRead, suspender, config.ini, SuspenderYReactivarElScript, hk
+iniRead, suspender, files\config.ini, SuspenderYReactivarElScript, hk
 hotkey, %suspender%, SuspenderYReactivarElScript, on
 }
 
@@ -104,7 +108,7 @@ save:
 gui, config:submit, hide
 if newHK
 {
-iniWrite, %newHK%, config.ini, %comando%, hk
+iniWrite, %newHK%, files\config.ini, %comando%, hk
 reload
 }
 else {
@@ -284,10 +288,10 @@ return
 commandList:
 gui, List:Default
 Gui, List:Add, ListView,, Comando|Atajo: 
-iniRead, file, config.ini
+iniRead, file, files\config.ini
 loop, parse, file, `n`r
 {
-iniRead, content, config.ini,% a_loopField, hk
+iniRead, content, files\config.ini,% a_loopField, hk
 content := strReplace(content, "^", "control, ")
 content := strReplace(content, "+", "shift, ")
 content := strReplace(content, "!", "alt, ")
@@ -296,15 +300,6 @@ LV_Add("",a_loopField,content)
 gui, List:add, button, gconfig, Cambiar el atajo de teclado
 gui, list:show,, Lista de comandos
 return
-
-startUp() {
-speak("copiando archivos")
-sleep 2000
-runWait cmd.exe /c mklink "%a_startMenuCommon%\programs\StartUp\setup.exe" "%a_workingDir%\setup.exe",, hide
-runWait cmd.exe /c mklink /d "%a_startMenuCommon%\programs\StartUp\files" "%a_workingDir%\files",, hide
-runWait cmd.exe /c mklink "%a_startMenuCommon%\programs\StartUp\config.ini" "%a_workingDir%\config.ini",, hide
-run "%a_startMenuCommon%\programs\StartUp\setup.exe"
-}
 
 config:
 fila := lv_getNext()
