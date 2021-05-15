@@ -108,8 +108,12 @@ save:
 gui, config:submit, hide
 if newHK
 {
+iniRead, oldHK, files\config.ini, %comando%, hk
+hotkey, %oldHK%, %comando%, off
 iniWrite, %newHK%, files\config.ini, %comando%, hk
-reload
+gui, config:destroy
+fileRead()
+gosub commandList
 }
 else {
 msgBox, 0, Atención; , Este campo no puede quedar vacío, por favor ingrese un atajo.
