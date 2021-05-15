@@ -307,7 +307,8 @@ lv_getText(comando, fila)
 gui, list:destroy
 gui, config:default
 gui, config:add, text,, Ingresa un comando de teclado
-gui, config:add, hotKey, vnewHK
+iniRead, oldHK, files\config.ini, %comando%, hk
+gui, config:add, hotKey, vnewHK, %oldHK%
 gui, config:add, button, gSave, Guardar los cambios
 gui, config:add, button, gCancel, Cancelar
 gui, config:show,, Configuración
