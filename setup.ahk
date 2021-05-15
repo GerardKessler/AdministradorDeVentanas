@@ -108,12 +108,8 @@ save:
 gui, config:submit, hide
 if newHK
 {
-iniRead, oldHK, files\config.ini, %comando%, hk
-hotkey, %oldHK%, %comando%, off
 iniWrite, %newHK%, files\config.ini, %comando%, hk
-gui, config:destroy
-fileRead()
-gosub commandList
+reload
 }
 else {
 msgBox, 0, Atención; , Este campo no puede quedar vacío, por favor ingrese un atajo.
@@ -308,10 +304,10 @@ return
 config:
 fila := lv_getNext()
 lv_getText(comando, fila)
+iniRead, oldHK, files\config.ini, %comando%, hk
 gui, list:destroy
 gui, config:default
-gui, config:add, text,, Ingresa un comando de teclado
-iniRead, oldHK, files\config.ini, %comando%, hk
+gui, config:add, text,, Ingresa un nuevo atajo de teclado
 gui, config:add, hotKey, vnewHK, %oldHK%
 gui, config:add, button, gSave, Guardar los cambios
 gui, config:add, button, gCancel, Cancelar
