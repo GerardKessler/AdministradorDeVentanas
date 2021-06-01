@@ -14,6 +14,7 @@ iniWrite, ^!2, files\config.ini, Favorita2, hk
 iniWrite, ^!3, files\config.ini, Favorita3, hk
 iniWrite, ^!r, files\config.ini, ResetearFavoritos, hk
 iniWrite, ^f1, files\config.ini, SuspenderYReactivarElScript, hk
+iniWrite, !b, files\config.ini, Buscador, hk
 iniWrite, 0, files\sounds.ini, DesactivarLosSonidos, value
 iniWrite, 0, files\sounds.ini, IniciarAlArrancar, value
 fileRead()
@@ -43,6 +44,8 @@ iniRead, ftr, files\config.ini, ResetearFavoritos, hk
 hotkey, %ftr%, ResetearFavoritos, on
 iniRead, suspender, files\config.ini, SuspenderYReactivarElScript, hk
 hotkey, %suspender%, SuspenderYReactivarElScript, on
+iniRead, buscador, files\config.ini, Buscador, hk
+hotkey, %buscador%, buscador, on
 }
 
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
@@ -69,6 +72,10 @@ Menu, Tray, Add, Mostrar todas las ventanas ocultas, mwt_RestoreAll
 menu, config, add, Desactivar los sonidos del script, soundsToggle
 menu, config, add, Ejecutar el script al iniciar el sistema, loginToggle
 
+webs := "&Google,&Youtube,&Wikipedia,&Real academia española,&Tecnoconocimiento accesible"
+loop, parse, webs, `,
+menu, buscador, add,% a_loopField, search
+
 if sounds = 0
 menu, config, unCheck, Desactivar los sonidos del script
 else
@@ -81,6 +88,12 @@ menu, config, unCheck, Ejecutar el script al iniciar el sistema
 
 mwt_MaxLength = 260
 
+return
+
+buscador:
+sleep 50
+inputBox, palabras, Ingrese los términos de búsqueda
+menu, buscador, show
 return
 
 Favorita1:
@@ -366,5 +379,11 @@ return
 #if winActive("Lista de comandos")
 esc::
 winClose
+
+search(itemName, itemPos, menuName) {
+global palabras
+links := ["https://www.google.com/search?q=", "https://www.youtube.com/results?search_query=", "https://es.wikipedia.org/wiki/", "https://dle.rae.es/", "https://tecnoconocimientoaccesible.blogspot.com/search?q="]
+run % links[itemPos] palabras
+}
 
 #if
