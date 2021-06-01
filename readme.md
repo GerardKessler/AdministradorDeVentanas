@@ -21,6 +21,7 @@ La primera vez que lo ejecutemos, un cartel preguntará si queremos que el mismo
 3. Copiar la ruta del archivo con el foco al portapapeles.
 4. Suspender y reactivar el script.
 5. Listar y modificar los atajos de teclado.
+6. Configurar que el script se ejecute al iniciar el sistema
 
 <br>
 
@@ -44,11 +45,16 @@ Para realizar esta acción simplemente debemos enfocar el archivo o carpeta del 
 
 ## Activar el menú contextual del script:
 El atajo por default para abrir el menú contextual es; alt, l.  
-La primera opción de este menú contextual posibilita desactivar todos los sonidos del script. Si lo marcamos se guardará la configuración y se reiniciará el script sin los sonidos.  
-Esta configuración quedará activada hasta que desmarquemos esta opción en el menú.  
 La opción Salir y mostrar todo cierra el script activando de una vez todas las ventanas ocultas.  
 La opción Mostrar todas las ventanas ocultas realiza la acción, pero sin cerrar el script.  
 A medida que vayamos ocultando ventanas, estas van a aparecer en este menú contextual permitiéndonos activarla con tan solo pulsar intro sobre ella. En ese caso volverá al frente la ventana y se ocultará el menú contextual.
+
+<br>
+
+### Menú de configuración:
+Al abrir este menú, que tiene asignado por defecto el atajo alt, q. Se activará un menú contextual con 2 opciónes.  
+La primera posibilita desactivar todos los sonidos del script. Si lo marcamos se guardará la configuración y se reiniciará el script sin los sonidos.  
+Y la segunda permite configurar para que el script se ejecute al iniciar el sistema, así como quitar esta opción.
 
 <br>
 

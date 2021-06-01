@@ -1,16 +1,5 @@
 ﻿IfNotExist, files\config.ini
-{
-msgBox, 4, Bienvenido al administrador de ventanas: , ¿Quieres que el script se ejecute cada vez que se inicie el sistema?
-ifMsgBox yes
-{
-fileCreateShortcut, %a_workingDir%\setup.exe, %a_startMenuCommon%\Programs\StartUp\AdministradorDeVentanas.lnk, %a_workingDir%
 fileCreate()
-}
-ifMsgBox no
-{
-fileCreate()
-}
-}
 else
 fileRead()
 
@@ -18,6 +7,7 @@ fileCreate() {
 iniWrite, !o, files\config.ini, OcultarVentana, hk
 iniWrite, !m, files\config.ini, MostrarVentana, hk
 iniWrite, !l, files\config.ini, ActivarMenú, hk
+iniWrite, !q, files\config.ini, ActivarMenúDeOpciones, hk
 iniWrite, !c, files\config.ini, CopiarRutaDelArchivoAlPortapapeles, hk
 iniWrite, ^!1, files\config.ini, Favorita1, hk
 iniWrite, ^!2, files\config.ini, Favorita2, hk
@@ -25,11 +15,12 @@ iniWrite, ^!3, files\config.ini, Favorita3, hk
 iniWrite, ^!r, files\config.ini, ResetearFavoritos, hk
 iniWrite, ^f1, files\config.ini, SuspenderYReactivarElScript, hk
 iniWrite, 0, files\sounds.ini, DesactivarLosSonidos, value
+iniWrite, 0, files\sounds.ini, IniciarAlArrancar, value
 fileRead()
 }
 
 fileRead() {
-global sounds
+global sounds, runStart
 iniRead, hide, files\config.ini, OcultarVentana, hk
 Hotkey, %hide%, OcultarVentana, on
 iniRead, show, files\config.ini, MostrarVentana, hk
@@ -38,7 +29,10 @@ iniRead, pc, files\config.ini, CopiarRutaDelArchivoAlPortapapeles, hk
 hotkey, %pc%, CopiarRutaDelArchivoAlPortapapeles, on
 iniRead, mn, files\config.ini, ActivarMenú, hk
 hotkey, %mn%, mwt_menuShow, on
+iniRead, mc, files\config.ini, ActivarMenúDeOpciones, hk
+hotkey, %mc%, mwt_menuConfigShow, on
 iniRead, sounds, files\sounds.ini, DesactivarLosSonidos, value
+iniRead, runStart, files\sounds.ini, IniciarAlArrancar, value
 iniRead, ft1, files\config.ini, Favorita1, hk
 hotkey, %ft1%, Favorita1, on
 iniRead, ft2, files\config.ini, Favorita2, hk
@@ -69,15 +63,21 @@ w1:="",w2:="",w3:=""
 
 Menu, Tray, NoStandard
 menu, tray, tip, Administrador de ventanas
-menu, tray, add, Desactivar los sonidos del script, soundsToggle
 Menu, Tray, Add, Salir y mostrar todo, mwt_RestoreAllThenExit
 Menu, Tray, Add, Mostrar todas las ventanas ocultas, mwt_RestoreAll
-Menu, Tray, Add  ; Another separator line to make the above more special.
+;Menu, Tray, Add
+menu, config, add, Desactivar los sonidos del script, soundsToggle
+menu, config, add, Ejecutar el script al iniciar el sistema, loginToggle
 
 if sounds = 0
-menu, tray, unCheck, Desactivar los sonidos del script
+menu, config, unCheck, Desactivar los sonidos del script
 else
-menu, tray, check, Desactivar los sonidos del script
+menu, config, check, Desactivar los sonidos del script
+
+if runStart = 1
+menu, config, check, Ejecutar el script al iniciar el sistema
+else
+menu, config, unCheck, Ejecutar el script al iniciar el sistema
 
 mwt_MaxLength = 260
 
@@ -130,6 +130,10 @@ sleep 50
 path := clipboard
 sleep 50
 clipboard := path
+return
+
+mwt_menuConfigShow:
+menu, config, show
 return
 
 mwt_menuShow:
@@ -276,13 +280,25 @@ if sounds = 0
 soundPlay files\restore.mp3
 return
 
+loginToggle:
+if runStart = 0
+{
+iniWrite, 1, files\sounds.ini, IniciarAlArrancar, value
+fileCreateShortcut, %a_workingDir%\setup.exe, %a_startMenuCommon%\Programs\StartUp\AdministradorDeVentanas.lnk, %a_workingDir%
+}
+else {
+iniWrite, 0, files\sounds.ini, IniciarAlArrancar, value
+fileDelete, %a_startMenuCommon%\Programs\StartUp\AdministradorDeVentanas.lnk
+}
+reload
+return
+
 soundsToggle:
 if sounds = 0
 iniWrite, 1, files\sounds.ini, DesactivarLosSonidos, value
 else
 iniWrite, 0, files\sounds.ini, DesactivarLosSonidos, value
 reload
-return
 
 +f1::
 commandList:
