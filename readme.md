@@ -7,6 +7,7 @@ Estescript fué desarrollado en base a otro script del cual no tengo datos de su
 * Añadido el apartado de configuración para iniciar con el sistema, así como la posibilidad de modificar los atajos de teclado.
 <li>Añadida función para suspender y reactivar el script</li>
 * Añadidos algunos sonidos para las diferentes acciones.
+* Añadida función para búsquedas
 * Escrita la actual documentación.
 
 <br>
@@ -19,9 +20,10 @@ La primera vez que lo ejecutemos, un cartel preguntará si queremos que el mismo
 1. Asignar hasta 3 ventanas como favoritas para enfocarlas rápidamente.
 2. Ocultar y mostrar las ventanas con el foco.
 3. Copiar la ruta del archivo con el foco al portapapeles.
-4. Suspender y reactivar el script.
-5. Listar y modificar los atajos de teclado.
-6. Configurar que el script se ejecute al iniciar el sistema
+4. Realizar una búsqueda en la página solicitada
+5. Suspender y reactivar el script.
+6. Listar y modificar los atajos de teclado.
+7. Configurar que el script se ejecute al iniciar el sistema
 
 <br>
 
@@ -43,6 +45,13 @@ Para realizar esta acción simplemente debemos enfocar el archivo o carpeta del 
 
 <br>
 
+## Realizar una búsqueda:
+Al pulsar el atajo por defecto; alt, b. Va a activarse un cuadro de texto donde podremos ingresar los términos a buscar.
+Al pulsar intro se abrirá un menú contextual en donde podremos seleccionar la web donde se realizará esa búsqueda.
+Al seleccionar alguna de las opciones, se abrirá el navegador por defecto en el sistema con la búsqueda realizada.
+
+<br>
+
 ## Activar el menú contextual del script:
 El atajo por default para abrir el menú contextual es; alt, l.  
 La opción Salir y mostrar todo cierra el script activando de una vez todas las ventanas ocultas.  
@@ -51,7 +60,7 @@ A medida que vayamos ocultando ventanas, estas van a aparecer en este menú cont
 
 <br>
 
-### Menú de configuración:
+## Menú de configuración:
 Al abrir este menú, que tiene asignado por defecto el atajo alt, q. Se activará un menú contextual con 2 opciónes.  
 La primera posibilita desactivar todos los sonidos del script. Si lo marcamos se guardará la configuración y se reiniciará el script sin los sonidos.  
 Y la segunda permite configurar para que el script se ejecute al iniciar el sistema, así como quitar esta opción.
